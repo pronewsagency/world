@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>مشغل تلقائي بدون إعلانات</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background-color: black;
+    }
+    #player-container {
+      width: 100%;
+      height: 100%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="player-container">
+    <iframe id="stream-frame"
+      src="https://sportzonline.si/channels/hd/hd1.php?autoplay=1"
+      sandbox="allow-same-origin allow-scripts allow-presentation allowfullscreen">
+    </iframe>
+  </div>
+
+  <script>
+    const frame = document.getElementById("stream-frame");
+
+    // محاولة تعطيل النوافذ المنبثقة الإعلانية
+    frame.onload = function () {
+      try {
+        frame.contentWindow.open = () => null;
+      } catch (e) {}
+    };
+
+    // حيلة لمحاولة التحايل على autoplay
+    window.addEventListener('load', () => {
+      const click = new Event('click');
+      document.body.dispatchEvent(click);
+    });
+  </script>
+
+</body>
+</html>
