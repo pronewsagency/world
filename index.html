@@ -13,9 +13,6 @@
     <!-- مكتبة الأيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- مكتبة Plyr للتصميم الأنيق للمشغل -->
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
-    
     <style>
         /* المتغيرات والهوية البصرية */
         :root {
@@ -28,10 +25,6 @@
             --glass-border: rgba(255, 255, 255, 0.08);
             --text-main: #ffffff;
             --text-muted: #8b92a5;
-            
-            /* تخصيص ألوان مشغل Plyr لتناسب الموقع */
-            --plyr-color-main: #0077FF;
-            --plyr-video-background: #000;
         }
 
         /* الإعدادات الأساسية */
@@ -72,7 +65,9 @@
             background: #000; position: relative; transition: opacity 0.3s ease;
         }
         
-        .plyr { width: 100%; height: 100%; border-radius: 20px; }
+        /* تنسيقات خاصة بمشغل Clappr ليناسب التصميم */
+        #player { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+        [data-player] { border-radius: 20px; overflow: hidden; }
 
         /* إعلان البانر */
         .ad-banner-container {
@@ -94,7 +89,6 @@
         .channels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
         .channel-card { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding: 12px 16px; border-radius: 14px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.3s ease; }
         
-        /* تنسيق الحاوية الخاصة بصورة الشعار */
         .channel-icon { 
             width: 50px; height: 35px; border-radius: 6px; background: rgba(255,255,255,0.03); 
             display: flex; justify-content: center; align-items: center; padding: 4px; transition: 0.3s; 
@@ -107,7 +101,6 @@
         .channel-card:hover, .channel-card.active { background: rgba(255, 255, 255, 0.08); border-color: var(--c-blue); transform: translateY(-3px); }
         .channel-card.active .channel-icon { background: rgba(255,255,255,0.1); box-shadow: inset 0 0 10px rgba(0, 119, 255, 0.2); }
         
-        /* إضاءة الشعار عند التحديد أو التمرير */
         .channel-card:hover .channel-icon img, .channel-card.active .channel-icon img { opacity: 1; filter: drop-shadow(0px 0px 3px rgba(255, 255, 255, 0.5)); }
         .channel-card.active h4 { color: var(--text-main); }
         
@@ -123,7 +116,6 @@
 </head>
 <body>
 
-    <!-- الشريط العلوي -->
     <header>
         <div class="logo">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -144,7 +136,6 @@
 
     <main class="main-container">
         
-        <!-- 1. المشغل في الأعلى -->
         <section class="player-section">
             <h1 class="channel-title">
                 <div class="live-dot"></div>
@@ -152,11 +143,11 @@
             </h1>
             
             <div class="video-wrapper" id="video-container">
-                <video id="my-video" controls crossorigin playsinline poster="https://images.unsplash.com/photo-1522778119026-d647f0596c20?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
-                </video>
+                <!-- حاوية مشغل Clappr -->
+                <div id="player"></div>
             </div>
 
-            <!-- إعلان بانر Adsterra -->
+            <!-- إعلان بانر -->
             <div class="ad-banner-container">
                 <script>
                   atOptions = {
@@ -171,7 +162,6 @@
             </div>
         </section>
 
-        <!-- 2. خيار البث المباشر وبجانبه زر تحميل التطبيق -->
         <section class="action-buttons">
             <div class="btn-action btn-live">
                 <i class="fa-solid fa-satellite-dish"></i>
@@ -183,7 +173,6 @@
             </a>
         </section>
 
-        <!-- 3. قائمة القنوات مع الشعارات -->
         <section class="channels-section">
             <div class="section-title">
                 <i class="fa-solid fa-trophy"></i>
@@ -256,21 +245,11 @@
         <p style="color: var(--text-muted); margin-top: 10px; font-size: 14px;">جميع الحقوق محفوظة &copy; 2026</p>
     </footer>
     
-    <!-- مكتبات المشغل الجديد HLS.js و Plyr -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
-    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <!-- مكتبة مشغل Clappr -->
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 
     <script>
-        // --- إدارة مشغل الفيديو (Plyr + Hls.js) ---
-        const video = document.getElementById('my-video');
-        
-        const player = new Plyr(video, {
-            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-            keyboard: { focused: true, global: true },
-            tooltips: { controls: true, seek: true }
-        });
-
-        let hls; 
+        let player; // متغير المشغل العام
 
         window.onload = () => {
             const firstChannel = document.querySelector('.channel-card');
@@ -299,26 +278,34 @@
 
                     titleElement.innerText = title;
                     
-                    if (hls) {
-                        hls.destroy();
+                    // تدمير المشغل القديم لتفريغ الذاكرة
+                    if (player) {
+                        player.destroy();
                     }
 
-                    if (Hls.isSupported()) {
-                        hls = new Hls({
-                            maxMaxBufferLength: 30 
-                        });
-                        hls.loadSource(proxiedStreamUrl);
-                        hls.attachMedia(video);
-                        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                            player.play();
-                        });
-                    } 
-                    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                        video.src = proxiedStreamUrl;
-                        video.addEventListener('loadedmetadata', function () {
-                            player.play();
-                        });
-                    }
+                    // تهيئة المشغل الجديد مع تعريف نوع الملف وإعدادات مقاومة للتقطيع
+                    player = new Clappr.Player({
+                        source: proxiedStreamUrl,
+                        mimeType: 'application/x-mpegURL', // تحديد نوع الملف كبث مباشر
+                        parentId: "#player",
+                        width: '100%',
+                        height: '100%',
+                        autoPlay: true,
+                        poster: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                        playback: {
+                            playInline: true,
+                            hlsjsConfig: {
+                                maxMaxBufferLength: 20,         
+                                fragLoadingTimeOut: 45000,      
+                                manifestLoadingTimeOut: 45000, 
+                                fragLoadingMaxRetry: 12,        
+                                manifestLoadingMaxRetry: 12,
+                                levelLoadingMaxRetry: 12,
+                                capLevelToPlayerSize: true      
+                            }
+                        }
+                    });
+
                 } else {
                     titleElement.innerText = title + ' (البث غير متوفر حالياً)';
                 }
