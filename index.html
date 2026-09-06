@@ -71,7 +71,7 @@
 
         /* إعلان البانر */
         .ad-banner-container {
-            width: 100%; text-align: center; margin-top: 10px; background: rgba(255, 255, 255, 0.02);
+            width: 100%; text-align: center; background: rgba(255, 255, 255, 0.02);
             border-radius: 15px; border: 1px dashed var(--glass-border); padding: 10px;
             min-height: 70px; display: flex; justify-content: center; align-items: center; overflow: hidden;
         }
@@ -142,13 +142,29 @@
                 <span id="current-channel-text">جاري التحميل...</span>
             </h1>
             
+            <!-- إعلان بانر فوق المشغل (الإعلان الجديد) -->
+            <div class="ad-banner-container" style="margin-bottom: 5px;">
+                <script>
+                (function(hkauo){
+                var d = document,
+                    s = d.createElement('script'),
+                    l = d.scripts[d.scripts.length - 1];
+                s.settings = hkauo || {};
+                s.src = "\/\/conventionalresponse.com\/bCX\/VrsKd.Gjlu0UYtWicM\/DeImy9nupZAU\/lok\/PgTPc-zDOfTlA\/zUOmT\/c\/tCNozLM\/5kMQD\/QCwxMCQX";
+                s.async = true;
+                s.referrerPolicy = 'no-referrer-when-downgrade';
+                l.parentNode.insertBefore(s, l);
+                })({})
+                </script>
+            </div>
+
             <div class="video-wrapper" id="video-container">
                 <!-- حاوية مشغل Clappr -->
                 <div id="player"></div>
             </div>
 
-            <!-- إعلان بانر -->
-            <div class="ad-banner-container">
+            <!-- إعلان بانر تحت المشغل (الإعلان القديم) -->
+            <div class="ad-banner-container" style="margin-top: 5px;">
                 <script>
                   atOptions = {
                     'key' : '4c36e881cfe896ed1e3d7ae247fec6a1',
@@ -317,9 +333,6 @@
             }
         }
     </script>
-
-    <!-- إعلان Social Bar -->
-    <script src="https://pl31203255.profitableratecpmnetwork.com/84/dd/42/84dd42b7b45cc90a6f02ec571ee81fe7.js"></script>
 
 </body>
 </html>
