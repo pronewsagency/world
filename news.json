@@ -1,0 +1,55 @@
+{
+  "site_info": {
+    "name": "شبكة الأخبار الرياضية",
+    "last_updated": "2026-09-13T12:00:00Z"
+  },
+  "articles": [
+    {
+      "id": "101",
+      "sport_type": "كرة القدم",
+      "title": "ريال مدريد يحسم الكلاسيكو بهدفين في الدقائق الأخيرة",
+      "summary": "في مباراة مثيرة، تمكن ريال مدريد من قلب الطاولة على غريمه التقليدي وحصد النقاط الثلاث.",
+      "author": "أحمد الرياضي",
+      "published_at": "2026-09-13T10:30:00Z",
+      "image_url": "https://example.com/images/clasico.jpg",
+      "tags": ["الدوري الإسباني", "ريال مدريد", "برشلونة", "كلاسيكو"],
+      "match_details": {
+        "is_match_report": true,
+        "team_home": "ريال مدريد",
+        "team_away": "برشلونة",
+        "score": "2 - 1",
+        "status": "انتهت"
+      }
+    },
+    {
+      "id": "102",
+      "sport_type": "كرة السلة",
+      "title": "ليكرز يحقق انتصاراً مهماً في دوري المحترفين",
+      "summary": "بفضل تألق نجمه الأول، حقق الفريق فوزاً صعباً في الثواني الأخيرة من الربع الرابع.",
+      "author": "محمد طارق",
+      "published_at": "2026-09-12T22:15:00Z",
+      "image_url": "https://example.com/images/lakers.jpg",
+      "tags": ["NBA", "كرة سلة", "ليكرز"],
+      "match_details": {
+        "is_match_report": true,
+        "team_home": "لوس أنجلوس ليكرز",
+        "team_away": "غولدن ستايت",
+        "score": "112 - 109",
+        "status": "انتهت"
+      }
+    },
+    {
+      "id": "103",
+      "sport_type": "تنس",
+      "title": "ألكاراز يتأهل إلى نهائي بطولة أمريكا المفتوحة",
+      "summary": "بأداء استثنائي وقوي، حجز النجم الإسباني الشاب مقعده في النهائي بعد مباراة استمرت 3 ساعات.",
+      "author": "سارة كمال",
+      "published_at": "2026-09-11T18:00:00Z",
+      "image_url": "https://example.com/images/tennis.jpg",
+      "tags": ["تنس", "أمريكا المفتوحة", "ألكاراز"],
+      "match_details": {
+        "is_match_report": false
+      }
+    }
+  ]
+}
