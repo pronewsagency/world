@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشغل القنوات المباشرة</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .channels-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+            width: 90%;
+            max-width: 800px;
+        }
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover, button.active {
+            background-color: #00ff88;
+            color: #000;
+        }
+        #video-container {
+            width: 90%;
+            max-width: 800px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        #status {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #00ff88;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="channels-container" id="channels-list">
+        <!-- سيتم توليد الأزرار هنا عبر الجافاسكربت -->
+    </div>
+
+    <div id="status">الرجاء اختيار قناة...</div>
+    
+    <div id="video-container">
+        <video id="video" controls autoplay></video>
+    </div>
+
+    <script>
+        const videoElement = document.getElementById('video');
+        const statusElement = document.getElementById('status');
+        const channelsList = document.getElementById('channels-list');
+        let hlsInstance = null; // متغير لحفظ جلسة البث الحالية لتدميرها عند التبديل
+
+        // توليد أزرار القنوات من 4 إلى 11
+        for (let i = 4; i <= 11; i++) {
+            const btn = document.createElement('button');
+            btn.innerText = 'قناة ' + i;
+            btn.id = 'btn-' + i;
+            btn.onclick = () => loadChannel(i);
+            channelsList.appendChild(btn);
+        }
+
+        async function loadChannel(id) {
+            // تحديث واجهة الأزرار
+            document.querySelectorAll('.channels-container button').forEach(b => b.classList.remove('active'));
+            const activeButton = document.getElementById('btn-' + id);
+            if(activeButton) activeButton.classList.add('active');
+
+            statusElement.innerText = `جاري الاتصال بقناة ${id}...`;
+            statusElement.style.color = '#00ff88';
+
+            const apiUrl = `https://cold-breeze-9b95.learnwithgedo.workers.dev/api/channel/${id}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const jsonData = await response.json();
+
+                if (jsonData.data && jsonData.data.length > 0) {
+                    const streamUrl = jsonData.data[0].url;
+                    statusElement.innerText = `جاري تشغيل قناة ${id}...`;
+                    playM3u8(streamUrl);
+                } else {
+                    statusElement.innerText = `عذراً، لا يوجد بث متاح للقناة ${id}.`;
+                    statusElement.style.color = '#ff4444';
+                    stopVideo();
+                }
+            } catch (error) {
+                console.error('خطأ في جلب البيانات:', error);
+                statusElement.innerText = `فشل الاتصال بخادم القناة ${id}.`;
+                statusElement.style.color = '#ff4444';
+                stopVideo();
+            }
+        }
+
+        function playM3u8(url) {
+            // إيقاف البث السابق إن وجد لتنظيف الذاكرة ومنع التداخل
+            if (hlsInstance) {
+                hlsInstance.destroy();
+            }
+
+            if (Hls.isSupported()) {
+                hlsInstance = new Hls();
+                hlsInstance.loadSource(url);
+                hlsInstance.attachMedia(videoElement);
+                
+                hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+                    videoElement.play().catch(e => console.log("تتطلب المتصفحات تفاعل المستخدم للتشغيل التلقائي."));
+                });
+
+                hlsInstance.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        statusElement.innerText = 'حدث خطأ في قراءة مسار الفيديو.';
+                        statusElement.style.color = '#ff4444';
+                    }
+                });
+            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                // دعم متصفحات Safari
+                videoElement.src = url;
+                videoElement.addEventListener('loadedmetadata', function() {
+                    videoElement.play();
+                });
+            }
+        }
+
+        function stopVideo() {
+            if (hlsInstance) {
+                hlsInstance.destroy();
+            }
+            videoElement.src = "";
+        }
+
+        // قراءة الـ ID من الرابط (مثال: ?id=5) أو تشغيل القناة 4 كافتراضي
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialChannel = urlParams.get('id') || 4;
+        loadChannel(initialChannel);
+
+    </script>
+</body>
+</html>
