@@ -104,7 +104,9 @@
                 const jsonData = await response.json();
 
                 if (jsonData.data && jsonData.data.length > 0) {
-                    const streamUrl = jsonData.data[0].url;
+                    // السطر المعدل: استبدال \u0026 بـ & مباشرة في الرابط
+                    const streamUrl = jsonData.data[0].url.replace(/\\u0026/g, '&');
+                    
                     statusElement.innerText = `جاري تشغيل قناة ${id}...`;
                     playM3u8(streamUrl);
                 } else {
