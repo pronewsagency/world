@@ -167,7 +167,7 @@
         <div id="view-player" class="view-section active">
             <h1 class="channel-title">
                 <div class="live-dot"></div>
-                <span id="current-channel-text">جاري التحميل...</span>
+                <span id="current-channel-text">الرجاء اختيار قناة</span>
             </h1>
             
             <div class="ad-banner-container" style="margin-bottom: 5px;">
@@ -217,35 +217,36 @@
                     <i class="fa-solid fa-trophy"></i> قنوات beIN SPORTS
                 </div>
                 <div class="channels-grid">
-                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinlive/channel/1424', 'beIN SPORTS 1 HD', this)">
+                    <!-- الروابط تم تعديلها إلى الـ m3u8 المباشرة -->
+                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinvip/stream/1424.m3u8', 'beIN SPORTS 1 HD', this)">
                         <div class="channel-icon"><img src="https://assets.bein.com/mena/sites/4/2015/06/beIN_SPORTS1_DIGITAL_Mono.png" alt="beIN SPORTS 1"></div>
                         <h4>beIN SPORTS 1 HD</h4>
                     </div>
-                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinlive/channel/1425', 'beIN SPORTS 2 HD', this)">
+                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinvip/stream/1425.m3u8', 'beIN SPORTS 2 HD', this)">
                         <div class="channel-icon"><img src="https://assets.bein.com/mena/sites/4/2021/02/beIN_SPORTS2_DIGITAL_Mono.png" alt="beIN SPORTS 2"></div>
                         <h4>beIN SPORTS 2 HD</h4>
                     </div>
-                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinlive/channel/1426', 'beIN SPORTS 3 HD', this)">
+                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinvip/stream/1426.m3u8', 'beIN SPORTS 3 HD', this)">
                         <div class="channel-icon"><img src="https://assets.bein.com/mena/sites/4/2015/06/beIN_SPORTS3_DIGITAL_Mono.png" alt="beIN SPORTS 3"></div>
                         <h4>beIN SPORTS 3 HD</h4>
                     </div>
-                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinlive/channel/1427', 'beIN SPORTS 4 HD', this)">
+                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinvip/stream/1427.m3u8', 'beIN SPORTS 4 HD', this)">
                         <div class="channel-icon"><img src="https://assets.bein.com/mena/sites/4/2015/06/beIN_SPORTS4_DIGITAL_Mono.png" alt="beIN SPORTS 4"></div>
                         <h4>beIN SPORTS 4 HD</h4>
                     </div>
-                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinlive/channel/1428', 'beIN SPORTS 5 HD', this)">
+                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinvip/stream/1428.m3u8', 'beIN SPORTS 5 HD', this)">
                         <div class="channel-icon"><img src="https://assets.bein.com/mena/sites/4/2015/06/beIN_SPORTS5_DIGITAL_Mono.png" alt="beIN SPORTS 5"></div>
                         <h4>beIN SPORTS 5 HD</h4>
                     </div>
-                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinlive/channel/1429', 'beIN SPORTS 6 HD', this)">
+                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinvip/stream/1429.m3u8', 'beIN SPORTS 6 HD', this)">
                         <div class="channel-icon"><img src="https://assets.bein.com/mena/sites/4/2021/02/beIN_SPORTS6_DIGITAL_Mono.png" alt="beIN SPORTS 6"></div>
                         <h4>beIN SPORTS 6 HD</h4>
                     </div>
-                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinlive/channel/1430', 'beIN SPORTS 7 HD', this)">
+                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinvip/stream/1430.m3u8', 'beIN SPORTS 7 HD', this)">
                         <div class="channel-icon"><img src="https://assets.bein.com/mena/sites/4/2015/06/beIN_SPORTS7_DIGITAL_Mono.png" alt="beIN SPORTS 7"></div>
                         <h4>beIN SPORTS 7 HD</h4>
                     </div>
-                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinlive/channel/1431', 'beIN SPORTS 8 HD', this)">
+                    <div class="channel-card" onclick="switchChannel('https://live-tv-116849026166.europe-west1.run.app/api/beinvip/stream/1431.m3u8', 'beIN SPORTS 8 HD', this)">
                         <div class="channel-icon"><img src="https://assets.bein.com/mena/sites/4/2023/09/logos-_beINSPORTS8.png" alt="beIN SPORTS 8"></div>
                         <h4>beIN SPORTS 8 HD</h4>
                     </div>
@@ -342,54 +343,43 @@
             }
         }
 
-        // ----------------- قسم البث المباشر -----------------
-        async function switchChannel(apiUrl, title, element) {
+        // ----------------- قسم البث المباشر (مُحدث) -----------------
+        function switchChannel(streamUrl, title, element) {
             const wrapper = document.getElementById('video-container');
             const titleElement = document.getElementById('current-channel-text');
             wrapper.style.opacity = '0.5';
             
+            // تحديث تصميم الزر النشط
             document.querySelectorAll('.channel-card').forEach(c => c.classList.remove('active'));
             if(element) element.classList.add('active');
-            titleElement.innerText = title + ' (جاري التحميل...)';
+            
+            titleElement.innerText = title;
 
             try {
-                const response = await fetch(apiUrl);
-                const jsonData = await response.json();
-                
-                if (jsonData && jsonData.data && jsonData.data.length > 0 && jsonData.data[0].url) {
-                    const originalStreamUrl = jsonData.data[0].url;
-                    
-                    // تم التعديل هنا لاستخدام النطاق الجديد للبروكسي
-                    // ملاحظة: إذا كان الـ API الجديد يُرجع الرابط جاهزاً للتشغيل المباشر 
-                    // يمكنك استخدام originalStreamUrl مباشرة في إعدادات المشغل وإلغاء سطر البروكسي أدناه.
-                    const workerDomain = "https://live-tv-116849026166.europe-west1.run.app/";
-                    const proxiedStreamUrl = workerDomain + "?stream=" + encodeURIComponent(originalStreamUrl);
-                    titleElement.innerText = title;
-                    
-                    if (player) player.destroy();
+                // تدمير المشغل القديم إن وجد
+                if (player) player.destroy();
 
-                    player = new Clappr.Player({
-                        source: proxiedStreamUrl,
-                        mimeType: 'application/x-mpegURL',
-                        parentId: "#player",
-                        width: '100%', height: '100%',
-                        autoPlay: true,
-                        poster: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                        playback: {
-                            playInline: true,
-                            hlsjsConfig: {
-                                maxMaxBufferLength: 20, fragLoadingTimeOut: 45000,      
-                                manifestLoadingTimeOut: 45000, fragLoadingMaxRetry: 12,        
-                                manifestLoadingMaxRetry: 12, levelLoadingMaxRetry: 12,
-                                capLevelToPlayerSize: true      
-                            }
+                // تشغيل الرابط المباشر مباشرة
+                player = new Clappr.Player({
+                    source: streamUrl,
+                    mimeType: 'application/x-mpegURL',
+                    parentId: "#player",
+                    width: '100%', height: '100%',
+                    autoPlay: true,
+                    poster: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    playback: {
+                        playInline: true,
+                        hlsjsConfig: {
+                            maxMaxBufferLength: 20, fragLoadingTimeOut: 45000,      
+                            manifestLoadingTimeOut: 45000, fragLoadingMaxRetry: 12,        
+                            manifestLoadingMaxRetry: 12, levelLoadingMaxRetry: 12,
+                            capLevelToPlayerSize: true      
                         }
-                    });
-                } else {
-                    titleElement.innerText = title + ' (البث غير متوفر حالياً)';
-                }
+                    }
+                });
             } catch (error) {
-                titleElement.innerText = title + ' (فشل الاتصال)';
+                console.error("خطأ في تشغيل البث:", error);
+                titleElement.innerText = title + ' (فشل التشغيل)';
             } finally {
                 wrapper.style.opacity = '1';
             }
@@ -438,18 +428,16 @@
 
         // دالة مخصصة لتهيئة وحقن الإعلانات بعد تحميل صفحة الخبر الديناميكية
         function injectArticleAds() {
-            // الإعلان الأول (تم تغيير البنية لإنشاء السكربت الخارجي مباشرةً لتجنب مشاكل التقييد)
             const ad1 = document.getElementById('article-ad-1');
             if (ad1) {
                 const script1 = document.createElement('script');
-                script1.settings = {}; // إعدادات فارغة كما هو مطلوب في السكربت الأصلي
+                script1.settings = {}; 
                 script1.src = "//conventionalresponse.com/bSXsVZs.dCGxl/0HYuWPcr/be/mS9GuCZkUPljkNP/Tcc/zVOMTsAlzxO/T/cVtmN-zGM/5GMOD/Q/wBMGQZ";
                 script1.async = true; 
                 script1.referrerPolicy = 'no-referrer-when-downgrade';
                 ad1.appendChild(script1);
             }
 
-            // الإعلان الثاني
             const ad2 = document.getElementById('article-ad-2');
             if (ad2) {
                 const script2a = document.createElement('script');
@@ -495,7 +483,6 @@
             const tagsHtml = article.tags ? article.tags.map(tag => `<span class="tag-badge">#${tag}</span>`).join('') : '';
             const dateStr = new Date(article.published_at).toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-            // تم استبدال سكريبتات الإعلان بحاويات (Divs) لكي يتم حقن الكود بها برمجياً
             document.getElementById('view-article').innerHTML = `
                 <button class="btn-back" onclick="switchTab('news')">
                     <i class="fa-solid fa-arrow-right"></i> عودة للأخبار
@@ -508,12 +495,10 @@
                         <span><i class="fa-solid fa-layer-group"></i> ${article.sport_type}</span>
                     </div>
 
-                    <!-- حاوية الإعلان الأول -->
                     <div class="ad-banner-container" id="article-ad-1" style="margin-bottom: 15px;"></div>
 
                     <img src="${article.image_url}" class="article-image" onerror="this.src='https://via.placeholder.com/800x400/141623/00FFD1?text=لا+توجد+صورة'" style="margin-bottom: 15px;">
                     
-                    <!-- حاوية الإعلان الثاني -->
                     <div class="ad-banner-container" id="article-ad-2" style="margin-bottom: 25px;"></div>
 
                     <div class="article-body">
@@ -524,9 +509,7 @@
                 </div>
             `;
 
-            // تنفيذ الدالة الخاصة بتفعيل وحقن الإعلانات
             injectArticleAds();
-
             showMode('article');
         }
     </script>
